@@ -1,8 +1,18 @@
 import { Anchor, Button, H1, Input, Paragraph, ScrollView, Separator, Text, XStack, YStack } from '@my/ui'
 import React, { useState } from 'react'
 import { useLink } from 'solito/link'
+import { Slider } from 'tamagui'
+import { ChevronDown, User } from '@tamagui/lucide-icons'
+import { Virtuoso } from 'react-virtuoso'
+import { useMemo } from 'react'
+
+
+
 
 export function HomeScreen() {
+  const [showList,setShowList]=useState(false);
+  const [showInput,setShowInput]=useState<any>({});
+
   const linkProps = useLink({
     href: '/user/nate',
   })
@@ -354,6 +364,127 @@ export function HomeScreen() {
       ]
     }
   ]
+  const languageArray=[
+   
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"purple",
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"brown",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"orange",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"pink",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"blue",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"gray",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"green",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"yellow",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"black",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"red",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"brown",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"orange",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"pink",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"blue",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"gray",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"green",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"yellow",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"black",
+
+    },
+    {
+      languageTitle:"English",
+      lahguageKey:"E",
+      backgroundcolor:"red",
+
+    },
+  ]
+ const openList = ()=> {
+  setShowList(true);
+
+  }
+
   return (
     <ScrollView f={1} p="$4" space backgroundColor={"rgb(32, 34, 37)"}>
       {
@@ -392,6 +523,67 @@ export function HomeScreen() {
           )
         })
       }
+
+
+<Slider size="$2" width={400} minStepsBetweenThumbs={10} borderTopColor={'blue'}  backgroundColor={'blue'} defaultValue={[10,30]} max={100} step={1}>
+
+  <Slider.Track borderColor={'#B7E2F0'} backgroundColor={'#B7E2F0'}>
+
+    <Slider.TrackActive borderColor={'blue'} backgroundColor={'blue'} />
+
+  </Slider.Track>
+
+  <Slider.Thumb backgroundColor={'blue'} borderColor='blue' circular index={0}  hoverStyle={{backgroundColor:'blue',borderColor:"blue"}}/>
+  <Slider.Thumb  backgroundColor={'blue'} borderColor='blue' circular index={1} hoverStyle={{backgroundColor:'blue',borderColor:"blue"}} />
+
+
+</Slider>
+{console.log("input",showInput)}
+<XStack   height={45} borderWidth={2}  borderRadius={4} backgroundColor={"black"} borderColor={"white"} alignItems={'center'} >
+<Input  value={showInput.lahguageKey}   width={'20px'} height={"20px"} display='flex' justifyContent='center'  alignItems={'center'} borderRadius={100} marginLeft={'10px'} fontSize={'14px'} onChangeText={setShowInput}  hoverStyle={{borderColor:"black"}}  borderColor={"black"} color={'white'} size="$3" backgroundColor={showInput.backgroundcolor}   focusStyle={{borderWidth:'$0'}} />
+
+<Input onClick={()=>{
+ openList()
+}} value={showInput.languageTitle}  onChangeText={setShowInput}  hoverStyle={{borderColor:"black"}}  borderColor={"black"} color={'white'} size="$3" backgroundColor={"black"}  flex={1}  focusStyle={{borderWidth:'$0'}} />
+<Button  marginRight={15} borderRadius={1} borderWidth={0} size='$1' backgroundColor={"black"} icon={<ChevronDown size="$0" color='white'  />}>
+    
+  </Button>
+</XStack>
+{showList &&
+<Virtuoso
+      style={{ height: 200 }}
+      totalCount={languageArray.length}
+      itemContent={(index) => {
+        const user = languageArray[index]
+        return (
+          <XStack  p={"$2.5"} 
+          hoverStyle={{
+            backgroundColor: 'hsla(0,0%,100%,.1333333333)',
+            outlineColor: "hsla(0,0%,100%,.1333333333)",
+            outlineWidth: "1px",
+            outlineStyle: "solid"
+          }}
+          onClick={()=>{
+            setShowInput({user})
+          setShowList(false)
+          }}
+          >
+            <Text color="white" width={'20px'} height={"20px"} backgroundColor={user?.backgroundcolor} borderColor={'gray'} display='flex' justifyContent='center'  alignItems={'center'} borderRadius={100} marginLeft={'10px'} fontSize={'14px'}>{user?.lahguageKey}</Text>
+        
+            
+            <Text color="white" marginLeft={'10px'} fontSize={'14px'}>{user?.languageTitle}</Text>
+        
+        
+        </XStack>
+        )
+      }}
+    />
+    }
+
+
+
+
+
 
     </ScrollView>
   )
