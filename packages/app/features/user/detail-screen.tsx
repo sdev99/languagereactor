@@ -1,5 +1,7 @@
 import { Button, Paragraph, YStack } from '@my/ui'
 import { ChevronLeft } from '@tamagui/lucide-icons'
+import { AutoComplete } from 'app/components/AutoComplete'
+import { Rangeslider } from 'app/components/RangeSlider'
 import React from 'react'
 import { createParam } from 'solito'
 import { useLink } from 'solito/link'
@@ -16,6 +18,9 @@ export function UserDetailScreen() {
       <Button {...linkProps} icon={ChevronLeft}>
         Go Home
       </Button>
+
+<Rangeslider></Rangeslider>
+<AutoComplete></AutoComplete>
     </YStack>
   )
 }
