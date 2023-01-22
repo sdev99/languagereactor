@@ -10281,7 +10281,6 @@ __metadata:
     "@manypkg/cli": ^0.19.1
     eslint: ^8.21.0
     prettier: ^2.7.1
-    react-virtuoso: ^4.0.3
     turbo: ^1.4.2
     typescript: ^4.7.4
   languageName: unknown
@@ -11852,16 +11851,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 7ee8ef3aab74c7ae1d70ff34a27643d11ba1a8d62d072c767827d9ff9a520905223e567002e0bf6c772929d8ea1c781a3ba0cc4a563e92b1e3dc2eaa817ecbe8
-  languageName: node
-  linkType: hard
-
-"react-virtuoso@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "react-virtuoso@npm:4.0.3"
-  peerDependencies:
-    react: ">=16 || >=17 || >= 18"
-    react-dom: ">=16 || >=17 || >= 18"
-  checksum: 828ec62afc4804d1e37373af57eedbbaf61e42e6fa5ab8dd8e6738c41ce607fa0efa403e976c13e340b369562929fc735eddc39166e102aa9732aa26d2547168
   languageName: node
   linkType: hard
 

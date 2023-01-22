@@ -1,177 +1,99 @@
-import { Button, Input, Text, XStack, YStack } from '@my/ui'
-import React, { useState } from 'react'
+import { Input, Stack, Text, XStack, YStack, Label } from '@my/ui'
+import React, { useState, useEffect } from 'react'
 import { ChevronDown } from '@tamagui/lucide-icons'
-import { Virtuoso } from 'react-virtuoso'
+import { VirtualizedList } from 'react-native';
 
+export const AutoComplete = ({ items, labelKey, onSelect }) => {
 
-
-export function AutoComplete() {
+    const [list, setList] = useState<any>(items);
+    const [isSearched, setIsSearched] = useState<boolean>(false);
     const [showList, setShowList] = useState(false);
-    const [showInput, setShowInput] = useState<any>({});
-    const languageArray = [
+    const [showInput, setShowInput] = useState<any>(items[0]);
+    const [searchText, setSearchText] = useState<string>("");
 
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "purple",
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "brown",
+    const getItemCount = () => list.length;
+    const getItem = (_data: unknown, index: number): any => list[index]!;
 
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "orange",
+    useEffect(() => {
+        if (searchText && isSearched) {
+            const filteredList = items.filter((item) => !searchText || item[labelKey].toLowerCase().includes(searchText.toLowerCase()));
+            console.log("filteredList", filteredList)
+            setList(filteredList)
+        } else {
+            setList(items)
+        }
+    }, [searchText, isSearched])
 
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "pink",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "blue",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "gray",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "green",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "yellow",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "black",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "red",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "brown",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "orange",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "pink",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "blue",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "gray",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "green",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "yellow",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "black",
-
-        },
-        {
-            languageTitle: "English",
-            lahguageKey: "E",
-            backgroundcolor: "red",
-
-        },
-    ]
-    const openList = () => {
+    const onInputFocus = () => {
+        setSearchText(showInput[labelKey]);
         setShowList(true);
+        setIsSearched(false)
+    };
 
+
+    const onInputFocusOut = () => {
+        setTimeout(() => {
+            setShowList(false);
+            setSearchText("");
+            setIsSearched(false)
+        }, 100)
     }
+
     return (
         <YStack>
-
-            <XStack height={45} borderWidth={2} borderRadius={4} backgroundColor={"black"} borderColor={"white"} alignItems={'center'} >
-                <Input value={showInput.user?.lahguageKey} size="$1.5" width={'23px'} display='flex' justifyContent='center' alignItems='center' textAlign='center' borderRadius={100} marginLeft={'10px'} fontSize={'14px'} onChangeText={setShowInput} hoverStyle={{ borderColor: "black" }} borderColor={"black"} color={'white'} backgroundColor={showInput.user?.backgroundcolor} focusStyle={{ borderWidth: '$0' }} />
-
-                <Input onClick={() => {
-                    openList()
-                }} value={showInput.user?.languageTitle} onChangeText={setShowInput} hoverStyle={{ borderColor: "black" }} borderColor={"black"} color={'white'} size="$3" backgroundColor={"black"} flex={1} focusStyle={{ borderWidth: '$0' }} />
-                <Button marginRight={15} borderRadius={1} borderWidth={0} size='$1' backgroundColor={"black"} icon={<ChevronDown size="$0" color='white' />}>
-
-                </Button>
+            <XStack onClick={onInputFocus} paddingHorizontal={"$3"} height={45} borderWidth={2} borderRadius={4} backgroundColor={"black"} borderColor={"white"} alignItems={'center'} >
+                <Stack borderRadius={15} jc="center" ai={"center"} backgroundColor="blueviolet" width={30} height={30} >
+                    <Label color="#fff">{showInput[labelKey]?.charAt(0) || ""}</Label>
+                </Stack>
+                <Input onEndEditing={onInputFocusOut} onClick={onInputFocus} onFocus={onInputFocus} onBlur={onInputFocusOut} value={showList ? searchText : showInput[labelKey]} onChangeText={(text) => {
+                    setShowList(true);
+                    setIsSearched(true)
+                    setSearchText(text)
+                }} hoverStyle={{ borderColor: "black" }} borderColor={"black"} color={'white'} size="$3" backgroundColor={"black"} flex={1} focusStyle={{ borderWidth: '$0' }} />
+                <ChevronDown size={24} color='white' />
             </XStack>
 
-            {showList &&
-                <Virtuoso
-                    style={{ height: 200 }}
-                    totalCount={languageArray.length}
-                    itemContent={(index) => {
-                        const user = languageArray[index]
-                        return (
-                            <XStack p={"$2.5"}
-                                hoverStyle={{
-                                    backgroundColor: 'hsla(0,0%,100%,.1333333333)',
-                                    outlineColor: "hsla(0,0%,100%,.1333333333)",
-                                    outlineWidth: "1px",
-                                    outlineStyle: "solid"
-                                }}
-                                onClick={() => {
-                                    setShowInput({ user })
-                                    setShowList(false)
-                                }}
-                            >
-                                <Text color="white" width={'20px'} height={"20px"} backgroundColor={user?.backgroundcolor} borderColor={'gray'} display='flex' justifyContent='center' alignItems={'center'} borderRadius={100} marginLeft={'10px'} fontSize={'14px'}>{user?.lahguageKey}</Text>
+            {
+                showList && (
+                    <Stack borderBottomEndRadius={10} borderBottomStartRadius={10} maxHeight={200} overflow="hidden" backgroundColor="rgba(46, 49, 54, 0.5)">
+                        {
+                            list && list.length > 0 ? <VirtualizedList
+                                data={list}
+                                initialNumToRender={10}
+                                renderItem={({ item }) => (
+                                    <XStack paddingHorizontal={"$3"} paddingVertical={"$2.5"}
+                                        ai="center"
+                                        hoverStyle={{
+                                            backgroundColor: 'hsla(0,0%,100%,.1333333333)',
+                                            outlineColor: "hsla(0,0%,100%,.1333333333)",
+                                            outlineWidth: "1px",
+                                            outlineStyle: "solid"
+                                        }}
+                                        onClick={() => {
+                                            setSearchText("");
+                                            setShowInput(item)
+                                            setShowList(false)
+                                            setIsSearched(false)
+                                            onSelect && onSelect(item)
+                                        }}
+                                    >
+                                        <Stack width={30} height={30} backgroundColor={item?.backgroundcolor} borderColor={'gray'} display='flex' jc='center' ai={'center'} borderRadius={100} >
+                                            <Text color="white" fontSize={'14px'}>{item[labelKey]?.charAt(0) || ""}</Text>
+                                        </Stack>
+                                        <Text color="white" marginLeft={10} fontSize={'14px'}>{item[labelKey]}</Text>
+                                    </XStack>
+                                )}
+                                keyExtractor={(_, index) => `${index}`}
+                                getItemCount={getItemCount}
+                                getItem={getItem}
+                            /> : <Label paddingHorizontal={"$3"} color={"#999"}>No options</Label>
+                        }
 
-
-                                <Text color="white" marginLeft={'10px'} fontSize={'14px'}>{user?.languageTitle}</Text>
-
-
-                            </XStack>
-                        )
-                    }}
-                />
+                    </Stack>
+                )
             }
+
+
         </YStack>
     )
 }
